@@ -1,18 +1,18 @@
-# 🇮🇳 Government Scheme-Matching Assistant (Track A · A4)
+# Government Scheme-Matching Assistant (Track A · A4)
 
 A multi-agent assistant that asks a citizen 5-8 adaptive questions, checks their profile against
 14 curated central-government schemes, and explains **why** they qualify, what is **one step away**,
 and which **documents** to keep ready.
 
-Built for the Capabl **National Level Agentic AI Hackathon** — Problem Statement **A4**.
+Built for the Capabl **National Level Agentic AI Hackathon** - Problem Statement **A4**.
 
-> ✅ Works **fully offline** with no API key (template explanations).
-> ✨ Add an Anthropic / OpenAI key to get friendlier LLM-written explanations.
-> ⚖️ Eligibility is **always decided by a deterministic rules engine** — the LLM never decides who qualifies.
+> Works **fully offline** with no API key (template explanations).
+> Add an Anthropic / OpenAI key to get friendlier LLM-written explanations.
+> Eligibility is **always decided by a deterministic rules engine** - the LLM never decides who qualifies.
 
 ---
 
-## 🚀 Quick start (VS Code)
+## Quick start (VS Code)
 
 **Requirements:** Python 3.10 or newer.
 
@@ -39,7 +39,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-> Shortcut: double-click `run.bat` (Windows) or run `./run.sh` (macOS/Linux) — it does all of the above.
+> Shortcut: double-click `run.bat` (Windows) or run `./run.sh` (macOS/Linux) - it does all of the above.
 
 The app opens at **http://localhost:8501**.
 If Streamlit asks for an email on first launch, just press **Enter**.
@@ -50,7 +50,7 @@ pip install -r requirements-llm.txt
 copy .env.example .env        # (macOS/Linux: cp .env.example .env)
 # put ONE key inside .env  →  ANTHROPIC_API_KEY=...   or   OPENAI_API_KEY=...
 ```
-You can also paste a key in the app: **sidebar → ⚙️ LLM settings**. If the LLM call ever fails, the app
+You can also paste a key in the app: **sidebar → LLM settings**. If the LLM call ever fails, the app
 automatically falls back to template explanations (shown in the Agent trace).
 
 ### Run the tests
@@ -60,7 +60,7 @@ python -m unittest discover -s tests -v
 
 ---
 
-## 🧠 How it works (the agentic pipeline)
+## How it works (the agentic pipeline)
 
 ```
  User answers        ┌──────────────┐   ┌───────────────────┐   ┌───────────────────┐
@@ -76,13 +76,13 @@ python -m unittest discover -s tests -v
 
 | Agent | Job |
 |---|---|
-| 🗣️ **Intake Agent** | Adaptive questions (a farmer is asked about land, a student about education & marks, an entrepreneur about business stage & funding). Validates and cleans the profile. |
-| ⚖️ **Eligibility Agent** | Runs every rule of every scheme → **eligible / near-miss / not eligible**. Deterministic, testable. |
-| 💬 **Explanation Agent** | Writes the “why you qualify” text from verified rule results. Uses an LLM if a key exists, otherwise templates. |
-| 🏆 **Ranking Agent** | Score = benefit size × 10 + how specifically the scheme targets the user × 10. |
-| 📄 **Report Agent** | Builds a downloadable PDF / Markdown report with reasoning and document checklists. |
+| **Intake Agent** | Adaptive questions (a farmer is asked about land, a student about education & marks, an entrepreneur about business stage & funding). Validates and cleans the profile. |
+| **Eligibility Agent** | Runs every rule of every scheme → **eligible / near-miss / not eligible**. Deterministic, testable. |
+| **Explanation Agent** | Writes the “why you qualify” text from verified rule results. Uses an LLM if a key exists, otherwise templates. |
+| **Ranking Agent** | Score = benefit size × 10 + how specifically the scheme targets the user × 10. |
+| **Report Agent** | Builds a downloadable PDF / Markdown report with reasoning and document checklists. |
 
-The **🧠 Agent trace** tab in the UI shows every agent step with timing — this is what makes the system
+The **Agent trace** tab in the UI shows every agent step with timing - this is what makes the system
 *agentic and explainable* rather than a plain prompt-to-answer chatbot.
 
 ### Feature checklist (from the problem statement)
@@ -93,13 +93,13 @@ The **🧠 Agent trace** tab in the UI shows every agent step with timing — th
 | Adaptive questions based on prior answers | `ask_if` conditions in `questions.py` |
 | Rule-based eligibility checking on curated schemes | `rules_engine.py`, `data/schemes.json` |
 | Reasoning shown for each match ("why you qualify") | Explanation Agent + rule-by-rule expander |
-| Near-miss detection ("what would make you eligible") | `near_miss` status + 🟡 tab |
+| Near-miss detection ("what would make you eligible") | `near_miss` status + Near-miss tab |
 | Ranking by relevance / benefit | `ranking_agent.py` |
-| ⭐ **Compulsory add-on: required-documents checklist** | `documents` field per scheme, tick-able checklist in each card, included in the report |
+| **Compulsory add-on: required-documents checklist** | `documents` field per scheme, tick-able checklist in each card, included in the report |
 
 ---
 
-## 📁 Project structure
+## Project structure
 
 ```
 Scheme-matcher-ai/
@@ -118,13 +118,13 @@ Scheme-matcher-ai/
 └── run.bat / run.sh
 ```
 
-## 📚 Schemes included (14)
+## Schemes included (14)
 
 PMEGP · MUDRA · Stand-Up India · PM-KISAN · Kisan Credit Card · Post-Matric Scholarship (SC) ·
 Post-Matric Scholarship (ST) · PM YASASVI (OBC) · Central Sector Scholarship · PMKVY ·
 Ayushman Vay Vandana · Atal Pension Yojana · PM Jeevan Jyoti Bima · PM Suraksha Bima
 
-### ➕ Adding a scheme
+### Adding a scheme
 Add an object to `data/schemes.json`. Rules are simple data:
 ```json
 {"field": "income", "op": "lte", "value": 250000, "label": "Family income up to Rs 2.5 lakh",
@@ -136,23 +136,23 @@ No code changes are needed.
 
 ---
 
-## 🎤 Suggested 3-minute demo script
+## Suggested 3-minute demo script
 
 1. **Problem (20 s):** “Hundreds of schemes exist, but people miss them because rules are scattered and dense.”
 2. **Live intake (40 s):** Answer a few questions manually. Point out that the questions **adapt** (e.g. choose *Farmer* → land question).
 3. **Results (60 s):** Show ranked **eligible** schemes → open one card → **rule-by-rule check** → tick a few **documents**.
-   Then show the 🟡 **Near-miss** tab: “you'd qualify if…”.
-4. **Agentic proof (30 s):** Open **🧠 Agent trace**: five agents, hand-offs, timings. Say: *“Rules decide eligibility, the LLM only explains — so no hallucinated eligibility.”*
+   Then show the **Near-miss** tab: “you'd qualify if…”.
+4. **Agentic proof (30 s):** Open **Agent trace**: five agents, hand-offs, timings. Say: *“Rules decide eligibility, the LLM only explains - so no hallucinated eligibility.”*
 5. **Report (20 s):** Download the PDF. Mention personas for instant demos, 25 unit tests, and offline-capable design.
 
-Tip: use the sidebar **Demo personas** (Lakshmi, Priya…) for instant, impressive results — Lakshmi and Priya both show near-misses.
+Tip: use the sidebar **Demo personas** (Lakshmi, Priya…) for instant, impressive results - Lakshmi and Priya both show near-misses.
 
-## ⚠️ Notes & limitations
-* Dataset is **simplified** for a hackathon demo (14 schemes, no state-specific rules). Always verify on official portals — links are inside each card.
-* Uses **synthetic personas only** — no real personal data is collected or stored.
+## Notes & limitations
+* Dataset is **simplified** for a hackathon demo (14 schemes, no state-specific rules). Always verify on official portals - links are inside each card.
+* Uses **synthetic personas only** - no real personal data is collected or stored.
 * Future work: state-specific schemes, multilingual (Telugu/Hindi) chat + voice, live scheme-data sync from MyScheme.gov.in, LangGraph-based orchestration.
 
-## 🛠 Troubleshooting
+## Troubleshooting
 | Problem | Fix |
 |---|---|
 | `streamlit: command not found` | Activate the venv first (`.venv\Scripts\activate`), then `pip install -r requirements.txt`. |

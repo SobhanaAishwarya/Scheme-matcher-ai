@@ -23,7 +23,6 @@ from scheme_matcher.rules_engine import load_schemes
 
 st.set_page_config(
     page_title="Scheme Matcher AI",
-    page_icon="🇮🇳",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -123,14 +122,14 @@ def scheme_count() -> int:
 # --------------------------------------------------------------------------- #
 def render_sidebar() -> None:
     with st.sidebar:
-        st.markdown("## 🇮🇳 Scheme Matcher AI")
+        st.markdown("## Scheme Matcher AI")
         st.caption(f"Multi-agent eligibility assistant · {scheme_count()} curated schemes")
 
-        st.markdown("### 🧩 Agent pipeline")
+        st.markdown("### Agent pipeline")
         for agent in build_pipeline():
-            st.markdown(f"**{agent.icon} {agent.name}**  \n<small>{agent.role}</small>", unsafe_allow_html=True)
+            st.markdown(f"**{agent.name}**  \n<small>{agent.role}</small>", unsafe_allow_html=True)
 
-        with st.expander("⚙️ LLM settings (optional)"):
+        with st.expander("LLM settings (optional)"):
             st.selectbox("Provider", list(PROVIDER_CHOICES), key="llm_provider")
             st.text_input(
                 "API key (optional)", type="password", key="api_key",
@@ -143,20 +142,20 @@ def render_sidebar() -> None:
             else:
                 st.info("Template mode - works fully offline, no API key needed.")
             if st.session_state.results is not None:
-                st.button("🔄 Regenerate explanations", on_click=regenerate)
+                st.button("Regenerate explanations", on_click=regenerate)
 
-        st.markdown("### 🎭 Demo personas")
+        st.markdown("### Demo personas")
         st.caption("Load a ready-made profile and jump straight to results.")
         for i, p in enumerate(PERSONAS):
             st.button(
-                f"{p['emoji']} {p['name']}", key=f"persona_{i}", on_click=load_persona,
+                p['name'], key=f"persona_{i}", on_click=load_persona,
                 args=(p,), help=p["blurb"],
             )
 
         st.divider()
         c1, c2 = st.columns(2)
         c1.button("↩ Undo", on_click=undo_last, disabled=not st.session_state.history)
-        c2.button("🔁 Start over", on_click=start_over)
+        c2.button("Start over", on_click=start_over)
 
 
 # --------------------------------------------------------------------------- #
@@ -167,21 +166,21 @@ def render_intake() -> None:
     answered, total = progress(ss.profile)
     st.progress(min(answered / total, 1.0), text=f"Question {min(answered + 1, total)} of about {total}")
 
-    with st.chat_message("assistant", avatar="🤖"):
+    with st.chat_message("assistant"):
         st.markdown(
-            "Namaste! 🙏 I'll ask a few quick questions (about 5-8) and then check "
+            "Namaste! I'll ask a few quick questions (about 5-8) and then check "
             "**which government schemes you are eligible for** - with reasons."
         )
     for h in ss.history:
-        with st.chat_message("assistant", avatar="🤖"):
+        with st.chat_message("assistant"):
             st.markdown(h["question"])
-        with st.chat_message("user", avatar="🙂"):
+        with st.chat_message("user"):
             st.markdown(f"**{h['answer']}**")
 
     q = next_question(ss.profile)
     if q is None:
         return
-    with st.chat_message("assistant", avatar="🤖"):
+    with st.chat_message("assistant"):
         st.markdown(f"**{q['text']}**")
         if q.get("help"):
             st.caption(q["help"])
@@ -192,7 +191,7 @@ def render_intake() -> None:
                 format_func=lambda k, opts=q["options"]: opts[k],
                 label_visibility="collapsed", on_change=choice_changed, args=(q,),
             )
-            st.caption("👆 Tap an option to continue")
+            st.caption("Tap an option to continue")
         else:
             if q["kind"] == "int":
                 value = st.number_input(
@@ -218,8 +217,8 @@ def render_intake() -> None:
 # --------------------------------------------------------------------------- #
 def rule_lines(ev: dict) -> None:
     for r in ev["rules"]:
-        icon = "✅" if r["passed"] else ("🟡" if r["near"] else "❌")
-        st.markdown(f"{icon} **{r['label']}**  \n&nbsp;&nbsp;&nbsp;&nbsp;Your answer: `{r['actual_display']}`")
+        status = "Pass" if r["passed"] else ("Near miss" if r["near"] else "Fail")
+        st.markdown(f"**{status} - {r['label']}**  \n&nbsp;&nbsp;&nbsp;&nbsp;Your answer: `{r['actual_display']}`")
 
 
 def scheme_card(ev: dict, kind: str) -> None:
@@ -233,26 +232,26 @@ def scheme_card(ev: dict, kind: str) -> None:
             f"<span class='pill'>{s['category']}</span><span class='pill'>{s['ministry']}</span>",
             unsafe_allow_html=True,
         )
-        st.markdown(f"**💰 Benefit:** {s['benefit']}")
+        st.markdown(f"**Benefit:** {s['benefit']}")
 
         if kind == "eligible":
-            st.success(f"**✅ Why you qualify**\n\n{ev['explanation']}")
-            st.caption(f"⭐ {ev['priority_reason']} · rank score {ev['rank_score']}")
+            st.success(f"**Why you qualify**\n\n{ev['explanation']}")
+            st.caption(f"{ev['priority_reason']} · rank score {ev['rank_score']}")
         else:
             f = ev["failed"][0]
-            st.warning(f"**🟡 So close - one condition missing**\n\n{ev['explanation']}")
+            st.warning(f"**So close - one condition missing**\n\n{ev['explanation']}")
             st.info(f"**What would make you eligible:** {f['hint']}")
 
         c1, c2 = st.columns(2)
         with c1:
-            with st.expander("🔎 Rule-by-rule check"):
+            with st.expander("Rule-by-rule check"):
                 rule_lines(ev)
         with c2:
-            with st.expander("📎 Documents to keep ready"):
+            with st.expander("Documents to keep ready"):
                 for i, doc in enumerate(s["documents"]):
                     st.checkbox(doc, key=f"doc_{s['id']}_{i}")
-        st.markdown(f"**How to apply:** {s['how_to_apply']}  \n🔗 [Open official portal ↗]({s['apply_url']})")
-        st.caption("Explained by: " + ("🤖 LLM" if ev["explanation_source"] == "llm" else "📝 template") + " · eligibility decided by the rules engine")
+        st.markdown(f"**How to apply:** {s['how_to_apply']}  \n[Open official portal ↗]({s['apply_url']})")
+        st.caption("Explained by: " + ("LLM" if ev["explanation_source"] == "llm" else "template") + " · eligibility decided by the rules engine")
 
 
 def render_results(state: dict) -> None:
@@ -260,18 +259,18 @@ def render_results(state: dict) -> None:
     n_e, n_n, n_x = len(ranked["eligible"]), len(ranked["near_miss"]), len(ranked["not_eligible"])
 
     top = st.columns([4, 1, 1])
-    top[0].markdown("### 🎯 Your scheme matches")
+    top[0].markdown("### Your scheme matches")
     top[1].button("↩ Undo last answer", on_click=undo_last, key="undo_main")
-    top[2].button("🔁 New profile", on_click=start_over, key="reset_main")
+    top[2].button("New profile", on_click=start_over, key="reset_main")
 
     st.info(state["summary"])
     m1, m2, m3, m4 = st.columns(4)
-    m1.metric("✅ Eligible", n_e)
-    m2.metric("🟡 Near-miss", n_n)
-    m3.metric("❌ Not eligible", n_x)
+    m1.metric("Eligible", n_e)
+    m2.metric("Near-miss", n_n)
+    m3.metric("Not eligible", n_x)
     m4.metric("Schemes checked", len(state["evaluations"]))
 
-    with st.expander("👤 Your profile"):
+    with st.expander("Your profile"):
         cols = st.columns(3)
         for i, q in enumerate(QUESTIONS):
             if q["id"] in state["profile"]:
@@ -280,7 +279,7 @@ def render_results(state: dict) -> None:
                 )
 
     tab_e, tab_n, tab_x, tab_t, tab_r = st.tabs(
-        [f"✅ Eligible ({n_e})", f"🟡 Near-miss ({n_n})", f"❌ Not eligible ({n_x})", "🧠 Agent trace", "📄 Report"]
+        [f"Eligible ({n_e})", f"Near-miss ({n_n})", f"Not eligible ({n_x})", "Agent trace", "Report"]
     )
 
     with tab_e:
@@ -300,7 +299,7 @@ def render_results(state: dict) -> None:
         st.caption("Schemes that do not apply to your profile, with the main reason.")
         for ev in ranked["not_eligible"]:
             b = ev["blocking"]
-            with st.expander(f"❌ {ev['scheme']['short_name']} - {b['label']}"):
+            with st.expander(f"{ev['scheme']['short_name']} - {b['label']}"):
                 st.markdown(ev["explanation"])
                 rule_lines(ev)
 
@@ -322,11 +321,11 @@ def render_results(state: dict) -> None:
         d1, d2 = st.columns(2)
         if state.get("report_pdf"):
             d1.download_button(
-                "⬇️ Download PDF", data=state["report_pdf"], file_name="scheme_report.pdf",
+                "Download PDF", data=state["report_pdf"], file_name="scheme_report.pdf",
                 mime="application/pdf", key="dl_pdf",
             )
         d2.download_button(
-            "⬇️ Download Markdown", data=state["report_md"], file_name="scheme_report.md",
+            "Download Markdown", data=state["report_md"], file_name="scheme_report.md",
             mime="text/markdown", key="dl_md",
         )
         with st.expander("Preview report", expanded=True):
@@ -351,7 +350,7 @@ def main() -> None:
     ss = st.session_state
     if ss.results is None and next_question(ss.profile) is None:
         try:
-            with st.spinner("🤖 Agents are checking eligibility, writing explanations and ranking schemes..."):
+            with st.spinner("Agents are checking eligibility, writing explanations and ranking schemes..."):
                 ss.results = run_pipeline(ss.profile, llm=get_llm())
         except ValueError as exc:
             st.error(f"Could not process the profile: {exc}")
@@ -366,7 +365,7 @@ def main() -> None:
 
     st.divider()
     st.caption(
-        "⚠️ Decision-support aid built on a simplified dataset. Scheme rules change - always confirm on the "
+        "Decision-support aid built on a simplified dataset. Scheme rules change - always confirm on the "
         "official portal before applying. Demo uses no real personal data."
     )
 

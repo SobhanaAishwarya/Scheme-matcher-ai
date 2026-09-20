@@ -10,7 +10,6 @@ State = dict[str, Any]
 
 class Agent:
     name = "Agent"
-    icon = "🤖"
     role = ""
 
     def run(self, state: State) -> State:  # pragma: no cover - interface
@@ -27,7 +26,7 @@ class Agent:
         duration = round((time.perf_counter() - started) * 1000) if started else 0
         state.setdefault("trace", []).append(
             {
-                "agent": f"{self.icon} {self.name}",
+                "agent": self.name,
                 "action": action,
                 "detail": detail,
                 "status": status,

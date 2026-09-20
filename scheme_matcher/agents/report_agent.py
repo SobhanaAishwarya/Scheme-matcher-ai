@@ -80,7 +80,7 @@ def build_markdown(state: State) -> str:
 def _pdf_safe(text: Any) -> str:
     """Standard PDF fonts only cover Latin-1/cp1252; replace anything else."""
     t = str(text)
-    for src, dst in {"≤": "<=", "≥": ">=", "≈": "~", "→": "->", "·": "-", "✅": "", "❌": ""}.items():
+    for src, dst in {"≤": "<=", "≥": ">=", "≈": "~", "→": "->", "·": "-"}.items():
         t = t.replace(src, dst)
     return escape(t.encode("cp1252", "replace").decode("cp1252"))
 
@@ -161,7 +161,6 @@ def build_pdf(state: State) -> bytes | None:
 
 class ReportAgent(Agent):
     name = "Report Agent"
-    icon = "📄"
     role = "Compiles the final report with reasoning and document checklists"
 
     def run(self, state: State) -> State:

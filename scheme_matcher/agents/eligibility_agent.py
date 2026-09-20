@@ -9,7 +9,6 @@ from .base import Agent, State
 
 class EligibilityAgent(Agent):
     name = "Eligibility Agent"
-    icon = "⚖️"
     role = "Runs deterministic rule checks: eligible / near-miss / not eligible"
 
     def run(self, state: State) -> State:

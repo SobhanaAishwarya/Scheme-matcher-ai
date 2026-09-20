@@ -109,7 +109,6 @@ def _parse_json(text: str) -> dict[str, Any]:
 
 class ExplanationAgent(Agent):
     name = "Explanation Agent"
-    icon = "💬"
     role = "Turns rule results into plain-language 'why you qualify' reasoning"
 
     def __init__(self, llm=None):

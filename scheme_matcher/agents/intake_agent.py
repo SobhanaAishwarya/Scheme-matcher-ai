@@ -9,7 +9,6 @@ from .base import Agent, State
 
 class IntakeAgent(Agent):
     name = "Intake Agent"
-    icon = "🗣️"
     role = "Asks adaptive questions and builds a clean user profile"
 
     # Question flow is exposed as thin wrappers so the UI talks to the agent.

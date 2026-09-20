@@ -9,7 +9,6 @@ from .questions import applicable_questions
 PERSONAS: list[dict[str, Any]] = [
     {
         "name": "Lakshmi - woman entrepreneur",
-        "emoji": "👩‍💼",
         "blurb": "28, SC, planning a Rs 12 lakh venture",
         "profile": {
             "age": 28, "gender": "female", "category": "sc", "occupation": "entrepreneur",
@@ -18,7 +17,6 @@ PERSONAS: list[dict[str, Any]] = [
     },
     {
         "name": "Ramesh - farmer",
-        "emoji": "👨‍🌾",
         "blurb": "45, OBC, 1.5 ha of land",
         "profile": {
             "age": 45, "gender": "male", "category": "obc", "occupation": "farmer",
@@ -27,7 +25,6 @@ PERSONAS: list[dict[str, Any]] = [
     },
     {
         "name": "Priya - college student",
-        "emoji": "🎓",
         "blurb": "19, SC, BSc, 88% in Class 12, income Rs 3 lakh",
         "profile": {
             "age": 19, "gender": "female", "category": "sc", "occupation": "student",
@@ -36,7 +33,6 @@ PERSONAS: list[dict[str, Any]] = [
     },
     {
         "name": "Ravi - job seeker",
-        "emoji": "🧑‍🔧",
         "blurb": "24, unemployed, looking for skills",
         "profile": {
             "age": 24, "gender": "male", "category": "general", "occupation": "unemployed",
@@ -45,7 +41,6 @@ PERSONAS: list[dict[str, Any]] = [
     },
     {
         "name": "Kamala - senior citizen",
-        "emoji": "👵",
         "blurb": "71, homemaker",
         "profile": {
             "age": 71, "gender": "female", "category": "general", "occupation": "homemaker",

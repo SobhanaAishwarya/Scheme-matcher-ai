@@ -31,7 +31,6 @@ def priority_reason(scheme: dict) -> str:
 
 class RankingAgent(Agent):
     name = "Ranking Agent"
-    icon = "🏆"
     role = "Ranks matches by benefit size and relevance to the user"
 
     def run(self, state: State) -> State:
