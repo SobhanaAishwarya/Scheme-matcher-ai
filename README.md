@@ -41,7 +41,8 @@ streamlit run app.py
 
 > Shortcut: double-click `run.bat` (Windows) or run `./run.sh` (macOS/Linux) - it does all of the above.
 
-The app opens at **http://localhost:8501**.
+The app opens at **http://localhost:8501**. You will see a short emoji splash, then a sign-in page: choose
+**Create account** (any email and a password of 8+ characters) to continue.
 If Streamlit asks for an email on first launch, just press **Enter**.
 
 ### Optional: enable LLM explanations
@@ -112,8 +113,10 @@ Scheme-matcher-ai/
 │   ├── llm.py                  # optional Anthropic/OpenAI wrapper
 │   ├── orchestrator.py         # runs the agent pipeline over shared state
 │   ├── personas.py             # demo personas
+│   ├── auth.py, db.py          # sign up / sign in (PBKDF2 password hashes in SQLite)
+│   ├── ui/                     # theme (CSS), HTML components, splash + sign-in gate
 │   └── agents/                 # intake, eligibility, explanation, ranking, report
-├── tests/test_scheme_matcher.py
+├── tests/                      # unit tests: rules engine, pipeline, auth
 ├── requirements.txt / requirements-llm.txt / .env.example
 └── run.bat / run.sh
 ```
@@ -143,13 +146,15 @@ No code changes are needed.
 3. **Results (60 s):** Show ranked **eligible** schemes → open one card → **rule-by-rule check** → tick a few **documents**.
    Then show the **Near-miss** tab: “you'd qualify if…”.
 4. **Agentic proof (30 s):** Open **Agent trace**: five agents, hand-offs, timings. Say: *“Rules decide eligibility, the LLM only explains - so no hallucinated eligibility.”*
-5. **Report (20 s):** Download the PDF. Mention personas for instant demos, 25 unit tests, and offline-capable design.
+5. **Report (20 s):** Download the PDF. Mention personas for instant demos, 31 unit tests, and offline-capable design.
 
 Tip: use the sidebar **Demo personas** (Lakshmi, Priya…) for instant, impressive results - Lakshmi and Priya both show near-misses.
 
 ## Notes & limitations
 * Dataset is **simplified** for a hackathon demo (14 schemes, no state-specific rules). Always verify on official portals - links are inside each card.
 * Uses **synthetic personas only** - no real personal data is collected or stored.
+* Accounts live in a local SQLite file (`data/users.db`, git-ignored) with salted PBKDF2 password hashes. On hosts with an
+  ephemeral disk, such as Streamlit Community Cloud, accounts reset whenever the app restarts.
 * Future work: state-specific schemes, multilingual (Telugu/Hindi) chat + voice, live scheme-data sync from MyScheme.gov.in, LangGraph-based orchestration.
 
 ## Troubleshooting

@@ -48,14 +48,14 @@ def run_pipeline(profile: dict[str, Any], llm=None, schemes=None) -> dict[str, A
 PIPELINE_DOT = """
 digraph G {
   rankdir=LR; bgcolor="transparent";
-  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11, color="#1F3A5F", fillcolor="#EAF1FB"];
-  edge [color="#1F3A5F"];
-  P [label="User profile\\n(adaptive Q&A)", fillcolor="#FFF4D6"];
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11, color="#4C1D95", fillcolor="#EDE9FE"];
+  edge [color="#4C1D95"];
+  P [label="User profile\\n(adaptive Q&A)", fillcolor="#FCE7F3"];
   I [label="Intake Agent"];
   E [label="Eligibility Agent\\n(rules engine)"];
   X [label="Explanation Agent\\n(LLM / template)"];
   R [label="Ranking Agent"];
-  D [label="Report Agent\\n(MD + PDF)", fillcolor="#E3F6E8"];
+  D [label="Report Agent\\n(MD + PDF)", fillcolor="#D1FAE5"];
   P -> I -> E -> X -> R -> D;
 }
 """

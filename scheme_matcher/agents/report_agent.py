@@ -97,8 +97,8 @@ def build_pdf(state: State) -> bytes | None:
 
     profile, ranked = state["profile"], state["ranked"]
     styles = getSampleStyleSheet()
-    h1 = ParagraphStyle("h1", parent=styles["Title"], fontSize=20, textColor=colors.HexColor("#1F3A5F"))
-    h2 = ParagraphStyle("h2", parent=styles["Heading2"], textColor=colors.HexColor("#1F3A5F"), spaceBefore=10)
+    h1 = ParagraphStyle("h1", parent=styles["Title"], fontSize=20, textColor=colors.HexColor("#4C1D95"))
+    h2 = ParagraphStyle("h2", parent=styles["Heading2"], textColor=colors.HexColor("#4C1D95"), spaceBefore=10)
     h3 = ParagraphStyle("h3", parent=styles["Heading3"], spaceBefore=8, spaceAfter=2)
     body = ParagraphStyle("body", parent=styles["BodyText"], fontSize=9.5, leading=13)
     small = ParagraphStyle("small", parent=body, fontSize=8, textColor=colors.HexColor("#555555"))
@@ -108,7 +108,7 @@ def build_pdf(state: State) -> bytes | None:
 
     story: list[Any] = [P("Government Scheme Eligibility Report", h1)]
     story.append(P(f"Generated on {date.today().strftime('%d %b %Y')}", small))
-    story.append(HRFlowable(width="100%", color=colors.HexColor("#1F3A5F")))
+    story.append(HRFlowable(width="100%", color=colors.HexColor("#4C1D95")))
 
     def bold_line(label: str, value: str):
         # label is trusted, value is escaped by _pdf_safe
