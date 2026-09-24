@@ -9,6 +9,22 @@ Built for the Capabl **National Level Agentic AI Hackathon** (Track A,
 problem statement A4). Python · Streamlit · deterministic rules engine ·
 optional LLM explanations · 31 unit tests.
 
+**Live demo:** https://scheme-matcher-ai-swnkmxhitt996chdbgervt.streamlit.app/
+
+## Screenshots
+
+**Results dashboard** - eligibility summary, top matches ranked by benefit, and the captured profile.
+
+![Results dashboard](docs/screenshots/03-results.png)
+
+| Sign in | Adaptive intake |
+|---|---|
+| ![Sign in](docs/screenshots/01-sign-in.png) | ![Adaptive intake](docs/screenshots/02-intake.png) |
+
+| Eligible schemes with reasons | Near-miss: one step away |
+|---|---|
+| ![Eligible scheme cards](docs/screenshots/04-scheme-cards.png) | ![Near-miss scheme](docs/screenshots/05-near-miss.png) |
+
 ## The problem
 
 India has hundreds of welfare and financing schemes, but eligibility rules
