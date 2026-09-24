@@ -1,6 +1,6 @@
 # Government Scheme Matcher
 
-A multi-agent assistant that asks a citizen 5–8 adaptive questions, checks
+A multi-agent assistant that asks a citizen 5-8 adaptive questions, checks
 their profile against 14 curated central-government schemes, and explains
 **why** they qualify, what is **one step away**, and which **documents** to
 keep ready.
@@ -13,7 +13,7 @@ optional LLM explanations · 31 unit tests.
 
 India has hundreds of welfare and financing schemes, but eligibility rules
 are scattered across portals and written in dense language. People miss
-benefits they already qualify for — or give up on ones they are one
+benefits they already qualify for - or give up on ones they are one
 document away from.
 
 ## Design principle
@@ -21,7 +21,7 @@ document away from.
 **Rules decide, the LLM only explains.** Eligibility is always computed by a
 deterministic, unit-tested rules engine. An LLM (Anthropic or OpenAI, if a
 key is provided) only rewrites verified rule results into friendlier
-language — so it can't invent eligibility. Without a key, the app runs fully
+language - so it can't invent eligibility. Without a key, the app runs fully
 offline using template explanations.
 
 ---
@@ -155,7 +155,7 @@ No code changes are needed.
 
 ## Try it quickly
 
-Use the sidebar **Demo personas** (e.g. Lakshmi, Priya) to load a synthetic profile instantly — both show near-miss results.
+Use the sidebar **Demo personas** (e.g. Lakshmi, Priya) to load a synthetic profile instantly - both show near-miss results.
 
 ## Limitations & next steps
 * Dataset is **simplified** for a hackathon demo (14 schemes, no state-specific rules). Always verify on official portals - links are inside each card.
