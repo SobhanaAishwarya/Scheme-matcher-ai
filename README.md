@@ -171,3 +171,7 @@ Use the sidebar **Demo personas** (e.g. Lakshmi, Priya) to load a synthetic prof
 | PDF button missing | `pip install reportlab` (Markdown download still works). |
 | LLM explanations not used | Check the sidebar status, or the “Agent trace” tab for the error; the app falls back to templates automatically. |
 | Port already in use | `streamlit run app.py --server.port 8502` |
+
+---
+
+© 2026 Kantapalli Sobhana Aishwarya. All rights reserved. Shared for portfolio viewing; please ask before reusing.
