@@ -1,14 +1,28 @@
-# Government Scheme-Matching Assistant (Track A · A4)
+# Government Scheme Matcher
 
-A multi-agent assistant that asks a citizen 5-8 adaptive questions, checks their profile against
-14 curated central-government schemes, and explains **why** they qualify, what is **one step away**,
-and which **documents** to keep ready.
+A multi-agent assistant that asks a citizen 5–8 adaptive questions, checks
+their profile against 14 curated central-government schemes, and explains
+**why** they qualify, what is **one step away**, and which **documents** to
+keep ready.
 
-Built for the Capabl **National Level Agentic AI Hackathon** - Problem Statement **A4**.
+Built for the Capabl **National Level Agentic AI Hackathon** (Track A,
+problem statement A4). Python · Streamlit · deterministic rules engine ·
+optional LLM explanations · 31 unit tests.
 
-> Works **fully offline** with no API key (template explanations).
-> Add an Anthropic / OpenAI key to get friendlier LLM-written explanations.
-> Eligibility is **always decided by a deterministic rules engine** - the LLM never decides who qualifies.
+## The problem
+
+India has hundreds of welfare and financing schemes, but eligibility rules
+are scattered across portals and written in dense language. People miss
+benefits they already qualify for — or give up on ones they are one
+document away from.
+
+## Design principle
+
+**Rules decide, the LLM only explains.** Eligibility is always computed by a
+deterministic, unit-tested rules engine. An LLM (Anthropic or OpenAI, if a
+key is provided) only rewrites verified rule results into friendlier
+language — so it can't invent eligibility. Without a key, the app runs fully
+offline using template explanations.
 
 ---
 
@@ -139,18 +153,11 @@ No code changes are needed.
 
 ---
 
-## Suggested 3-minute demo script
+## Try it quickly
 
-1. **Problem (20 s):** “Hundreds of schemes exist, but people miss them because rules are scattered and dense.”
-2. **Live intake (40 s):** Answer a few questions manually. Point out that the questions **adapt** (e.g. choose *Farmer* → land question).
-3. **Results (60 s):** Show ranked **eligible** schemes → open one card → **rule-by-rule check** → tick a few **documents**.
-   Then show the **Near-miss** tab: “you'd qualify if…”.
-4. **Agentic proof (30 s):** Open **Agent trace**: five agents, hand-offs, timings. Say: *“Rules decide eligibility, the LLM only explains - so no hallucinated eligibility.”*
-5. **Report (20 s):** Download the PDF. Mention personas for instant demos, 31 unit tests, and offline-capable design.
+Use the sidebar **Demo personas** (e.g. Lakshmi, Priya) to load a synthetic profile instantly — both show near-miss results.
 
-Tip: use the sidebar **Demo personas** (Lakshmi, Priya…) for instant, impressive results - Lakshmi and Priya both show near-misses.
-
-## Notes & limitations
+## Limitations & next steps
 * Dataset is **simplified** for a hackathon demo (14 schemes, no state-specific rules). Always verify on official portals - links are inside each card.
 * Uses **synthetic personas only** - no real personal data is collected or stored.
 * Accounts live in a local SQLite file (`data/users.db`, git-ignored) with salted PBKDF2 password hashes. On hosts with an
